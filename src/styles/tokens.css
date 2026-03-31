@@ -1,0 +1,45 @@
+:root {
+  /* Backgrounds */
+  --bg0: #fbf1c7;
+  --bg1: #ebdbb2;
+  --bg2: #d5c4a1;
+  --bg3: #bdae93;
+  --bg4: #a89984;
+
+  /* Foregrounds */
+  --fg:  #3c3836;
+  --fg2: #504945;
+  --fg3: #665c54;
+  --fg4: #7c6f64;
+
+  /* Colors */
+  --red:    #cc241d;
+  --green:  #98971a;
+  --yellow: #d79921;
+  --blue:   #458588;
+  --purple: #b16286;
+  --aqua:   #689d6a;
+  --orange: #d65d0e;
+
+  /* Bright variants */
+  --byellow: #b57614;
+  --bblue:   #076678;
+  --bgreen:  #79740e;
+  --baqua:   #427b58;
+  --bred:    #9d0006;
+  --bpurple: #8f3f71;
+  --borange: #af3a03;
+
+  /* Typography */
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+
+  /* Spacing */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+
+  /* Window */
+  --win-border: 1px solid var(--bg3);
+  --win-border-focused: 1px solid var(--yellow);
+  --win-shadow: 0 2px 12px rgba(60,56,54,0.10);
+}
