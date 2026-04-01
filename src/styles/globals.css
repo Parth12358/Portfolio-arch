@@ -5,6 +5,16 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition:
+    background-color 0.3s ease,
+    border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+html {
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
 }
 
 html, body, #root {
@@ -23,4 +33,23 @@ html, body, #root {
 button {
   font-family: var(--font-mono);
   cursor: pointer;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+
+
+@media (max-width: 768px) {
+  .tile-grid {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: unset !important;
+    overflow-y: auto;
+    height: auto;
+  }
+
+  .tile-grid > div {
+    grid-column: 1 / 2 !important;
+    grid-row: unset !important;
+    min-height: 280px;
+  }
 }
