@@ -9,7 +9,6 @@ export default function Waybar() {
   const { activeWorkspace, setWorkspace } = useTileStore()
   const { theme, toggleTheme } = useThemeStore()
   const [time, setTime] = useState('')
-
   useEffect(() => {
     const update = () => {
       const n = new Date()

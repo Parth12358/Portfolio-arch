@@ -87,6 +87,21 @@ export default function TileGrid({ workspaceId }: Props) {
     { gridColumn: '2', gridRow: '3' },           // 4 — bottom right
   ]
 
+  if (workspaceId === 2) {
+    return (
+      <div style={{
+        width: '100%',
+        height: '100%',
+        padding: 8,
+        boxSizing: 'border-box',
+      }}>
+        <SortableTile id="projects-ws2" title="projects">
+          <TileContent id="projects-ws2" />
+        </SortableTile>
+      </div>
+    )
+  }
+
   if (workspaceId === 1) {
     return (
       <DndContext

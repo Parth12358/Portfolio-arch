@@ -67,3 +67,14 @@ button {
     min-height: 280px;
   }
 }
+
+@media (max-width: 768px) {
+  .projects-ws2-left {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--bg3);
+    flex-direction: row !important;
+    overflow-x: auto;
+    height: auto !important;
+  }
+}

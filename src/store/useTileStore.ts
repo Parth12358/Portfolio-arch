@@ -9,6 +9,7 @@ export type TileId =
   | 'threed'
   | 'bio'
   | 'contact'
+  | 'projects-ws2'
 
 export interface TileState {
   id: TileId
@@ -36,11 +37,14 @@ export const useTileStore = create<TileStore>((set) => ({
   ],
   tileOrder: {
     1: ['fastfetch', 'projects', 'activity', 'terminal', 'audio'],
-    2: [],
+    2: ['projects-ws2'],
     3: [],
     4: ['bio', 'contact'],
   },
-  setWorkspace: (ws) => set({ activeWorkspace: ws }),
+  setWorkspace: (ws) => set((state) => {
+    if (state.activeWorkspace === ws) return state
+    return { activeWorkspace: ws }
+  }),
   reorderTiles: (workspaceId, newOrder) =>
     set((s) => ({
       tileOrder: { ...s.tileOrder, [workspaceId]: newOrder },

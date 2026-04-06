@@ -128,17 +128,7 @@ export default function FastfetchTile() {
             <MarqueeRow label="tools"      tags={CONFIG.skills.tools}      color="var(--bpurple)" speed={32} reverse />
             <MarqueeRow label="platforms"  tags={CONFIG.skills.platforms}  color="var(--borange)" speed={25} />
           </div>
-          {/* Blinking prompt */}
-          <div style={{ color: 'var(--bgreen)', fontSize: 13, flexShrink: 0, paddingTop: 6 }}>
-            ❯{' '}
-            <span style={{
-              display: 'inline-block',
-              width: 8, height: 14,
-              background: 'var(--byellow)',
-              verticalAlign: 'middle',
-              animation: 'blink 1.1s step-end infinite',
-            }} />
-          </div>
+          
         </div>
       </div>
     </div>

@@ -7,16 +7,18 @@ import AudioTile from './AudioTile'
 import ThreeDTile from './ThreeDTile'
 import BioTile from './BioTile'
 import ContactTile from './ContactTile'
+import ProjectsWorkspaceTile from './ProjectsWorkspaceTile'
 
 const MAP: Record<TileId, React.ComponentType> = {
-  fastfetch: FastfetchTile,
-  projects:  ProjectsTile,
-  activity:  ActivityTile,
-  terminal:  TerminalTile,
-  audio:     AudioTile,
-  threed:    ThreeDTile,
-  bio:       BioTile,
-  contact:   ContactTile,
+  fastfetch:      FastfetchTile,
+  projects:       ProjectsTile,
+  activity:       ActivityTile,
+  terminal:       TerminalTile,
+  audio:          AudioTile,
+  threed:         ThreeDTile,
+  bio:            BioTile,
+  contact:        ContactTile,
+  'projects-ws2': ProjectsWorkspaceTile,
 }
 
 export default function TileContent({ id }: { id: TileId }) {
