@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import type { DraggableAttributes, DraggableSyntheticListeners } from '@dnd-kit/core'
 import type { TileId } from '../../store/useTileStore'
 
@@ -11,21 +10,21 @@ interface Props {
   dragAttributes?: DraggableAttributes
   isDragging?: boolean
   noPadding?: boolean
+  noOverflow?: boolean
 }
 
-export default function Tile({ id: _id, title, children, dragListeners, dragAttributes, isDragging, noPadding }: Props) {
+export default function Tile({ id: _id, title, children, dragListeners, dragAttributes, isDragging, noPadding, noOverflow }: Props) {
   const [hovered, setHovered] = useState(false)
 
   return (
-    <motion.div
-      onHoverStart={() => setHovered(true)}
-      onHoverEnd={() => setHovered(false)}
+    <div
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       className="tile-wrapper"
-      animate={{ scale: isDragging ? 1.02 : 1 }}
-      transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       style={{
         width: '100%',
         height: '100%',
+        minWidth: 0,
         background: 'var(--bg1)',
         border: hovered ? '1px solid var(--green)' : 'var(--win-border)',
         borderRadius: 'var(--radius-md)',
@@ -35,7 +34,7 @@ export default function Tile({ id: _id, title, children, dragListeners, dragAttr
         boxShadow: hovered
           ? '0 0 0 2px color-mix(in srgb, var(--green) 25%, transparent), var(--win-shadow)'
           : 'var(--win-shadow)',
-        transition: 'border 0.2s ease, box-shadow 0.2s ease',
+        transition: 'border 0.15s ease, box-shadow 0.2s ease',
       }}
     >
       {/* Titlebar — drag handle */}
@@ -67,13 +66,14 @@ export default function Tile({ id: _id, title, children, dragListeners, dragAttr
       {/* Body */}
       <div style={{
         flex: 1,
-        overflow: 'auto',
+        overflow: noOverflow ? 'hidden' : 'auto',
         padding: noPadding ? 0 : '12px 14px',
         fontFamily: 'var(--font-mono)',
         fontSize: 12,
+        minHeight: 0,
       }}>
         {children}
       </div>
-    </motion.div>
+    </div>
   )
 }

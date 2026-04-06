@@ -2,7 +2,6 @@ import { create } from 'zustand'
 
 export type TileId =
   | 'fastfetch'
-  | 'skills'
   | 'projects'
   | 'activity'
   | 'terminal'
@@ -28,7 +27,6 @@ export const useTileStore = create<TileStore>((set) => ({
   activeWorkspace: 1,
   tiles: [
     { id: 'fastfetch', workspace: 1 },
-    { id: 'skills',    workspace: 1 },
     { id: 'projects',  workspace: 1 },
     { id: 'activity',  workspace: 1 },
     { id: 'terminal',  workspace: 1 },
@@ -37,7 +35,7 @@ export const useTileStore = create<TileStore>((set) => ({
     { id: 'contact',   workspace: 4 },
   ],
   tileOrder: {
-    1: ['fastfetch', 'skills', 'projects', 'activity', 'terminal', 'audio'],
+    1: ['fastfetch', 'projects', 'activity', 'terminal', 'audio'],
     2: [],
     3: [],
     4: ['bio', 'contact'],

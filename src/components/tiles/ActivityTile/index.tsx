@@ -21,11 +21,11 @@ function buildWeekGrid(events: any[]): DayCell[][] {
   endSunday.setDate(today.getDate() - today.getDay())
 
   const startSunday = new Date(endSunday)
-  startSunday.setDate(endSunday.getDate() - 25 * 7)
+  startSunday.setDate(endSunday.getDate() - 4 * 7)
 
   const weeks: DayCell[][] = []
 
-  for (let w = 0; w < 26; w++) {
+  for (let w = 0; w < 5; w++) {
     const week: DayCell[] = []
     for (let d = 0; d < 7; d++) {
       const date = new Date(startSunday)
@@ -84,14 +84,14 @@ export default function ActivityTile() {
       <div style={{ display: 'flex', gap: 16, flex: 1, overflow: 'hidden' }}>
 
         {/* LEFT — contribution graph */}
-        <div style={{ flexShrink: 0, overflowX: 'auto' }}>
-          <div style={{ display: 'inline-block', minWidth: 'max-content' }}>
+        <div style={{ flexShrink: 0 }}>
+          <div>
 
             {/* Month labels */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: `24px repeat(${weeks.length}, 14px)`,
-              gap: '0 3px',
+              gridTemplateColumns: `40px repeat(${weeks.length}, 20px)`,
+              gap: '0 px',
               marginBottom: 2,
               fontSize: 10,
               color: 'var(--fg4)',
@@ -110,9 +110,9 @@ export default function ActivityTile() {
                 key={day}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: `24px repeat(${weeks.length}, 14px)`,
-                  gap: '0 3px',
-                  marginBottom: 3,
+                  gridTemplateColumns: `24px repeat(${weeks.length}, 12px)`,
+                  gap: '0 10px',
+                  marginBottom: 4,
                   alignItems: 'center',
                 }}
               >
@@ -128,7 +128,7 @@ export default function ActivityTile() {
                     key={wi}
                     title={`${week[day].date}: ${week[day].count} contributions`}
                     style={{
-                      width: 14, height: 14,
+                      width: 20, height: 20,
                       borderRadius: 2,
                       background: cellColor(week[day].count, isDark),
                       transition: 'background 0.3s ease',
@@ -148,7 +148,7 @@ export default function ActivityTile() {
               <span>less</span>
               {[0,1,2,3,4].map(l => (
                 <div key={l} style={{
-                  width: 12, height: 12, borderRadius: 2,
+                  width: 20, height: 20, borderRadius: 2,
                   background: cellColor(l, isDark),
                 }} />
               ))}

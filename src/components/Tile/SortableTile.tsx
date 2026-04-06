@@ -9,7 +9,8 @@ interface Props {
   children: React.ReactNode
 }
 
-const NO_PADDING_TILES: TileId[] = ['terminal']
+const NO_PADDING_TILES: TileId[] = ['terminal', 'fastfetch']
+const NO_OVERFLOW_TILES: TileId[] = ['fastfetch']
 
 export default function SortableTile({ id, title, children }: Props) {
   const {
@@ -22,9 +23,11 @@ export default function SortableTile({ id, title, children }: Props) {
   } = useSortable({ id })
 
   const style: React.CSSProperties = {
-    transform: CSS.Transform.toString(transform),
-    transition: transition ?? 'transform 200ms ease',
-    opacity: isDragging ? 0.3 : 1,
+    // Source tile stays in place — overlay follows the cursor
+    transform: isDragging ? undefined : CSS.Transform.toString(transform),
+    transition: isDragging ? undefined : (transition ?? 'transform 200ms ease'),
+    // Source tile fades out — overlay takes its visual place
+    opacity: isDragging ? 0 : 1,
     zIndex: isDragging ? 0 : 1,
     height: '100%',
     width: '100%',
@@ -39,6 +42,7 @@ export default function SortableTile({ id, title, children }: Props) {
         dragAttributes={attributes}
         isDragging={isDragging}
         noPadding={NO_PADDING_TILES.includes(id)}
+        noOverflow={NO_OVERFLOW_TILES.includes(id)}
       >
         {children}
       </Tile>

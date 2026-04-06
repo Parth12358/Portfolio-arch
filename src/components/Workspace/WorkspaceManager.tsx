@@ -26,7 +26,7 @@ export default function WorkspaceManager() {
           animate="center"
           exit="exit"
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-          style={{ position: 'absolute', inset: 0 }}
+          style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}
         >
           <Workspace id={activeWorkspace} />
         </motion.div>

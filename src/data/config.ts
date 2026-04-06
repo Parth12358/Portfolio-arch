@@ -3,26 +3,34 @@ export const CONFIG = {
     username: 'Parth12358',
   },
   user: {
-    handle: 'user',       // replace with real handle
+    handle: 'parth',
     host: 'archbox',
+    name: 'Parth Kshirsagar',
     os: 'Arch Linux x86_64',
     wm: 'Hyprland',
     editor: 'neovim',
     shell: 'zsh',
     terminal: 'kitty',
     theme: 'Gruvbox Light',
+    university: 'Penn State — CS + Entrepreneurship',
+    gpa: '3.54',
+    role: 'Full Stack & AI Developer',
+    location: 'State College, PA',
+    website: 'theparthkshirsagar.com',
+    email: 'parth.kshirsagar1410@gmail.com',
+    linkedin: 'linkedin.com/in/parth-kshirsagar',
   },
-  skills: [
-    { name: 'Python', level: 90, color: 'var(--bgreen)' },
-    { name: 'Rust',   level: 75, color: 'var(--byellow)' },
-    { name: 'Bash',   level: 85, color: 'var(--aqua)' },
-    { name: 'C',      level: 60, color: 'var(--bblue)' },
-    { name: 'Docker', level: 70, color: 'var(--blue)' },
-    { name: 'Neovim', level: 88, color: 'var(--purple)' },
-  ],
+  skills: {
+    areas:      ['AI/ML', 'Full Stack', 'Mobile Dev', 'Frontend', 'Backend', 'VR/AR', 'Edge AI', 'Robotics', 'Cybersecurity', 'Systems Programming', 'Audio Processing', 'Assistive Tech'],
+    languages:  ['Python', 'TypeScript', 'JavaScript', 'Java', 'C', 'C++', 'Dart', 'SQL', 'R', 'HTML/CSS'],
+    frameworks: ['React', 'React Native', 'Next.js', 'Flutter', 'Node.js', 'Flask', 'TensorFlow', 'Langchain', 'Hugging Face', 'MongoDB', 'Supabase', 'Tailwind CSS', 'p5.js', 'OpenCV', 'Pygame', 'Expo', 'NativeWind'],
+    tools:      ['Neovim', 'Git', 'GitHub', 'Figma', 'Unity', 'Unreal Engine', 'Android Studio', 'Vivado', 'MATLAB', 'Vercel', 'Docker', 'VS Code'],
+    platforms:  ['Meta Quest', 'Raspberry Pi', 'Snapdragon X Elite', 'AWS', 'Fetch.AI Agentverse', 'Linux'],
+  },
   contact: {
     github: 'github.com/Parth12358',
-    email: 'user@mail.com',      // replace
-    discord: 'user#0000',        // replace
+    email: 'parth.kshirsagar1410@gmail.com',
+    linkedin: 'linkedin.com/in/parth-kshirsagar',
+    website: 'theparthkshirsagar.com',
   },
 }
