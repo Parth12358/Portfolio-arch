@@ -6,10 +6,12 @@ export type TileId =
   | 'activity'
   | 'terminal'
   | 'audio'
-  | 'threed'
-  | 'bio'
-  | 'contact'
   | 'projects-ws2'
+  | 'timeline'
+  | 'funfacts'
+  | 'interests'
+  | 'philosophy'
+  | 'contact'
 
 export interface TileState {
   id: TileId
@@ -27,19 +29,22 @@ interface TileStore {
 export const useTileStore = create<TileStore>((set) => ({
   activeWorkspace: 1,
   tiles: [
-    { id: 'fastfetch', workspace: 1 },
-    { id: 'projects',  workspace: 1 },
-    { id: 'activity',  workspace: 1 },
-    { id: 'terminal',  workspace: 1 },
-    { id: 'audio',     workspace: 1 },
-    { id: 'bio',       workspace: 4 },
-    { id: 'contact',   workspace: 4 },
+    { id: 'fastfetch',   workspace: 1 },
+    { id: 'projects',    workspace: 1 },
+    { id: 'activity',    workspace: 1 },
+    { id: 'terminal',    workspace: 1 },
+    { id: 'audio',       workspace: 1 },
+    { id: 'timeline',    workspace: 4 },
+    { id: 'funfacts',    workspace: 4 },
+    { id: 'interests',   workspace: 4 },
+    { id: 'philosophy',  workspace: 4 },
+    { id: 'contact',     workspace: 4 },
   ],
   tileOrder: {
     1: ['fastfetch', 'projects', 'activity', 'terminal', 'audio'],
     2: ['projects-ws2'],
     3: [],
-    4: ['bio', 'contact'],
+    4: ['timeline', 'funfacts', 'interests', 'philosophy', 'contact'],
   },
   setWorkspace: (ws) => set((state) => {
     if (state.activeWorkspace === ws) return state

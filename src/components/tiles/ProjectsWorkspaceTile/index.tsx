@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { CONFIG } from '../../../data/config'
 import { useTileStore } from '../../../store/useTileStore'
@@ -7,6 +7,10 @@ export default function ProjectsWorkspaceTile() {
   const { setWorkspace } = useTileStore()
   const [activeId, setActiveId] = useState(CONFIG.projects[0].id)
   const [filter, setFilter] = useState<'all' | 'hackathon' | 'professional'>('all')
+  const [hoveredId, setHoveredId] = useState<string | null>(null)
+
+  const hasClicked = useRef(false)
+  const hoverTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const filtered = CONFIG.projects.filter(p => filter === 'all' || p.type === filter)
   const active = CONFIG.projects.find(p => p.id === activeId) ?? CONFIG.projects[0]
@@ -60,26 +64,67 @@ export default function ProjectsWorkspaceTile() {
         </div>
 
         {/* Tab list */}
-        <div style={{ flex: 1, overflowY: 'auto' }}>
+        <div
+          style={{ flex: 1, overflowY: 'auto' }}
+          onMouseLeave={() => {
+            hasClicked.current = false
+            if (hoverTimer.current) {
+              clearTimeout(hoverTimer.current)
+              hoverTimer.current = null
+            }
+            setHoveredId(null)
+          }}
+        >
           {filtered.map(project => (
             <div
               key={project.id}
-              onClick={() => setActiveId(project.id)}
+              onClick={() => {
+                hasClicked.current = true
+                setActiveId(project.id)
+              }}
+              onMouseEnter={() => {
+                setHoveredId(project.id)
+                if (!hasClicked.current) {
+                  if (hoverTimer.current) clearTimeout(hoverTimer.current)
+                  hoverTimer.current = setTimeout(() => {
+                    if (!hasClicked.current) {
+                      setActiveId(project.id)
+                    }
+                  }, 600)
+                }
+              }}
+              onMouseLeave={() => {
+                setHoveredId(null)
+                if (hoverTimer.current) {
+                  clearTimeout(hoverTimer.current)
+                  hoverTimer.current = null
+                }
+              }}
               style={{
                 padding: '10px 12px',
                 borderBottom: '1px solid var(--bg3)',
                 cursor: 'pointer',
-                background: activeId === project.id ? 'var(--bg2)' : 'transparent',
+                background: activeId === project.id
+                  ? 'var(--bg2)'
+                  : hoveredId === project.id
+                  ? 'color-mix(in srgb, var(--bg2) 60%, transparent)'
+                  : 'transparent',
                 borderLeft: activeId === project.id
                   ? `2px solid ${project.color}`
+                  : hoveredId === project.id
+                  ? `2px solid color-mix(in srgb, ${project.color} 40%, transparent)`
                   : '2px solid transparent',
-                transition: 'all 0.15s',
+                transition: 'all 0.15s ease',
               }}
             >
               <div style={{
                 fontSize: 11,
                 fontWeight: 700,
-                color: activeId === project.id ? project.color : 'var(--fg)',
+                color: activeId === project.id
+                  ? project.color
+                  : hoveredId === project.id
+                  ? 'var(--fg)'
+                  : 'var(--fg2)',
                 marginBottom: 2,
                 transition: 'color 0.15s',
               }}>
@@ -88,16 +133,36 @@ export default function ProjectsWorkspaceTile() {
               <div style={{ fontSize: 9, color: 'var(--fg4)', marginBottom: 4 }}>
                 {project.competition}
               </div>
-              <div style={{
-                display: 'inline-block',
-                fontSize: 8,
-                padding: '1px 6px',
-                borderRadius: 2,
-                border: `1px solid ${project.color}`,
-                color: project.color,
-                opacity: 0.8,
-              }}>
-                {project.award}
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{
+                  display: 'inline-block',
+                  fontSize: 8,
+                  padding: '1px 6px',
+                  borderRadius: 2,
+                  border: `1px solid ${project.color}`,
+                  color: project.color,
+                  opacity: 0.8,
+                }}>
+                  {project.award}
+                </div>
+
+                {hoveredId === project.id && activeId !== project.id && !hasClicked.current && (
+                  <div style={{
+                    width: 20,
+                    height: 2,
+                    background: 'var(--bg3)',
+                    borderRadius: 1,
+                    overflow: 'hidden',
+                    flexShrink: 0,
+                  }}>
+                    <div style={{
+                      height: '100%',
+                      background: project.color,
+                      borderRadius: 1,
+                      animation: 'hover-progress 600ms linear forwards',
+                    }} />
+                  </div>
+                )}
               </div>
             </div>
           ))}

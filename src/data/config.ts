@@ -19,6 +19,7 @@ export const CONFIG: {
   skills: Record<string, string[]>
   contact: Record<string, string>
   projects: ProjectEntry[]
+  audio: { src: string; title: string; artist: string }
 } = {
   github: {
     username: 'Parth12358',
@@ -53,6 +54,11 @@ export const CONFIG: {
     email: 'parth.kshirsagar1410@gmail.com',
     linkedin: 'linkedin.com/in/parth-kshirsagar',
     website: 'parthk.com',
+  },
+  audio: {
+    src: '/audio/track.mp3',
+    title: 'track.mp3',
+    artist: 'unknown',
   },
   projects: [
     // Hackathon Winners

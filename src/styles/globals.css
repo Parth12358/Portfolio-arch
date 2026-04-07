@@ -68,6 +68,11 @@ button {
   }
 }
 
+@keyframes hover-progress {
+  from { width: 0%; }
+  to   { width: 100%; }
+}
+
 @media (max-width: 768px) {
   .projects-ws2-left {
     width: 100% !important;

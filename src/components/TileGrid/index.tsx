@@ -102,6 +102,80 @@ export default function TileGrid({ workspaceId }: Props) {
     )
   }
 
+  if (workspaceId === 4) {
+    return (
+      <DndContext
+        sensors={sensors}
+        collisionDetection={rectIntersection}
+        onDragStart={handleDragStart}
+        onDragOver={handleDragOver}
+        onDragEnd={handleDragEnd}
+      >
+        <SortableContext items={order} strategy={rectSortingStrategy}>
+          <div
+            className="tile-grid"
+            style={{
+              width: '100%',
+              height: '100%',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gridTemplateRows: '1fr 1fr 0.6fr',
+              gridTemplateAreas: `
+                "timeline   funfacts"
+                "timeline   interests"
+                "philosophy contact"
+              `,
+              gap: 8,
+              padding: 8,
+              boxSizing: 'border-box',
+              overflow: 'hidden',
+              touchAction: 'none',
+            }}
+          >
+            <div style={{ gridArea: 'timeline',   minHeight: 0 }}>
+              <SortableTile id="timeline" title="timeline">
+                <TileContent id="timeline" />
+              </SortableTile>
+            </div>
+            <div style={{ gridArea: 'funfacts',   minHeight: 0 }}>
+              <SortableTile id="funfacts" title="fun facts">
+                <TileContent id="funfacts" />
+              </SortableTile>
+            </div>
+            <div style={{ gridArea: 'interests',  minHeight: 0 }}>
+              <SortableTile id="interests" title="interests">
+                <TileContent id="interests" />
+              </SortableTile>
+            </div>
+            <div style={{ gridArea: 'philosophy', minHeight: 0 }}>
+              <SortableTile id="philosophy" title="philosophy">
+                <TileContent id="philosophy" />
+              </SortableTile>
+            </div>
+            <div style={{ gridArea: 'contact',    minHeight: 0 }}>
+              <SortableTile id="contact" title="contact">
+                <TileContent id="contact" />
+              </SortableTile>
+            </div>
+          </div>
+        </SortableContext>
+
+        <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)' }}>
+          {activeId ? (
+            <div style={{
+              background: 'var(--bg1)', border: '1px solid var(--green)',
+              borderRadius: 'var(--radius-md)', opacity: 0.9, minHeight: 120,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)', padding: '4px 10px',
+              fontFamily: 'var(--font-mono)', fontSize: 10, color: 'var(--fg4)',
+            }}>
+              {activeId}
+            </div>
+          ) : null}
+        </DragOverlay>
+      </DndContext>
+    )
+  }
+
   if (workspaceId === 1) {
     return (
       <DndContext
