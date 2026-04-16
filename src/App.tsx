@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import { useThemeStore } from './store/useThemeStore'
 import Waybar from './components/Waybar'
 import WorkspaceManager from './components/Workspace/WorkspaceManager'
+import AudioProvider from './components/AudioProvider'
 import './styles/globals.css'
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
       display: 'flex', flexDirection: 'column',
       overflow: 'hidden', background: 'var(--bg0)',
     }}>
+      <AudioProvider />
       <Waybar />
       <WorkspaceManager />
     </div>

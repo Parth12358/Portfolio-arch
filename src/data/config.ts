@@ -57,8 +57,8 @@ export const CONFIG: {
   },
   audio: {
     src: '/audio/track.mp3',
-    title: 'track.mp3',
-    artist: 'unknown',
+    title: 'From the Start',
+    artist: 'Laufey',
   },
   projects: [
     // Hackathon Winners
