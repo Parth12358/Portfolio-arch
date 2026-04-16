@@ -17,7 +17,7 @@ const LINES = [
   { type: 'text',    text: 'If you understand your tools, you own them.' },
   { type: 'text',    text: 'That is why I run arch.' },
   { type: 'blank',   text: '' },
-  { type: 'prompt',  text: '❯ _' },
+  { type: 'prompt',  text: '> _' },
 ]
 
 export default function PhilosophyTile() {

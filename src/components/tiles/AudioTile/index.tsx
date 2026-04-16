@@ -15,19 +15,19 @@ export default function AudioTile() {
   const barColor = !muted && playing ? 'var(--baqua)' : 'var(--bg4)'
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', gap: 8 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
 
       {/* Track info */}
-      <div style={{ flexShrink: 0 }}>
-        <div style={{ fontSize: 10, color: 'var(--fg4)', letterSpacing: 1, marginBottom: 2 }}>AUDIO</div>
+      <div style={{ flexShrink: 0, marginBottom: 4 }}>
+        <div style={{ fontSize: 9, color: 'var(--fg4)', letterSpacing: 1, marginBottom: 1 }}>AUDIO</div>
         <div style={{ fontSize: 11, color: 'var(--fg)', fontWeight: 700, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {CONFIG.audio.title}
         </div>
-        <div style={{ fontSize: 10, color: 'var(--fg4)' }}>{CONFIG.audio.artist}</div>
+        <div style={{ fontSize: 9, color: 'var(--fg4)' }}>{CONFIG.audio.artist}</div>
       </div>
 
       {/* Soundwave bars */}
-      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', gap: 2, minHeight: 0 }}>
+      <div style={{ flex: 1, display: 'flex', alignItems: 'flex-end', gap: 2, minHeight: 0, overflow: 'hidden' }}>
         {bars.map((h, i) => (
           <div key={i} style={{
             flex: 1,
@@ -36,7 +36,7 @@ export default function AudioTile() {
             height: `${h}%`,
             transition: muted ? 'height 0.15s ease, background 0.3s ease' : 'height 0.05s ease, background 0.3s ease',
             minHeight: 2,
-            opacity: playing ? 1 : 0.3,
+            opacity: playing ? 1 : 0.4,
           }} />
         ))}
       </div>
@@ -57,7 +57,7 @@ export default function AudioTile() {
       )}
 
       {/* Controls */}
-      <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexShrink: 0 }}>
+      <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexShrink: 0, marginTop: 4 }}>
         <button
           onClick={togglePlay}
           style={{
@@ -69,7 +69,7 @@ export default function AudioTile() {
           onMouseEnter={e => { e.currentTarget.style.background = 'var(--aqua)'; e.currentTarget.style.color = 'var(--bg0)' }}
           onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = 'var(--baqua)' }}
         >
-          {playing ? '⏸ pause' : '▶ play'}
+          {playing ? '|| pause' : '> play'}
         </button>
 
         <button
@@ -82,7 +82,7 @@ export default function AudioTile() {
             fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
           }}
         >
-          {muted ? '🔇 muted' : '🔊 live'}
+          {muted ? 'muted' : 'live'}
         </button>
 
         <div style={{ marginLeft: 'auto', fontSize: 9, color: 'var(--fg4)' }}>

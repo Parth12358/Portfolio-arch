@@ -5,7 +5,6 @@ import {
   useSensor,
   useSensors,
   DragOverlay,
-  MeasuringStrategy,
 } from '@dnd-kit/core'
 import type { DragEndEvent, DragStartEvent, DragOverEvent } from '@dnd-kit/core'
 import {
@@ -22,9 +21,23 @@ import TileContent from '../tiles/TileContent'
 
 interface Props { workspaceId: number }
 
+// Workspace 1: tile → grid-area mapping (swapped on drop to make drag work with named areas)
+const WS1_AREAS: Record<TileId, string> = {
+  fastfetch:  'fastfetch',
+  projects:   'projects',
+  activity:   'activity',
+  gameoflife: 'gameoflife',
+  terminal:   'terminal',
+  audio:      'audio',
+} as Record<TileId, string>
+
 export default function TileGrid({ workspaceId }: Props) {
   const { tileOrder, reorderTiles } = useTileStore()
   const [activeId, setActiveId] = useState<TileId | null>(null)
+
+  // Workspace 1: swap grid-area assignments on drop (named areas + rectSortingStrategy
+  // are incompatible — arrayMove on order has no visual effect when areas are hardcoded)
+  const [areaMap, setAreaMap] = useState<Record<TileId, string>>(WS1_AREAS)
 
   const order = tileOrder[workspaceId] ?? []
 
@@ -36,24 +49,29 @@ export default function TileGrid({ workspaceId }: Props) {
     setActiveId(e.active.id as TileId)
   }
 
-  // KEY FIX: reorder the DOM array live during drag, not just on drop
-  const handleDragOver = (e: DragOverEvent) => {
-    const { active, over } = e
-    if (!over || active.id === over.id) return
-    const oldIndex = order.indexOf(active.id as TileId)
-    const newIndex = order.indexOf(over.id as TileId)
-    if (oldIndex !== newIndex) {
-      reorderTiles(workspaceId, arrayMove(order, oldIndex, newIndex))
-    }
+  const handleDragOver = (_e: DragOverEvent) => {
+    // No-op for ws1: live reorder via arrayMove doesn't work with named grid areas.
+    // The visual swap happens on dragEnd via areaMap.
   }
 
   const handleDragEnd = (e: DragEndEvent) => {
-    // Order is already correct from onDragOver — just clear active
+    const { active, over } = e
+    if (workspaceId === 1 && over && active.id !== over.id) {
+      const activeKey = active.id as TileId
+      const overKey = over.id as TileId
+      setAreaMap(prev => ({
+        ...prev,
+        [activeKey]: prev[overKey],
+        [overKey]:   prev[activeKey],
+      }))
+    } else if (workspaceId !== 1 && over && active.id !== over.id) {
+      const oldIndex = order.indexOf(active.id as TileId)
+      const newIndex = order.indexOf(over.id as TileId)
+      if (oldIndex !== newIndex) {
+        reorderTiles(workspaceId, arrayMove(order, oldIndex, newIndex))
+      }
+    }
     setActiveId(null)
-  }
-
-  const measuring = {
-    droppable: { strategy: MeasuringStrategy.Always },
   }
 
   const dropAnimation = {
@@ -75,17 +93,6 @@ export default function TileGrid({ workspaceId }: Props) {
       </Tile>
     </div>
   ) : null
-
-  // Workspace 1: positions driven by array index so drag-and-drop actually reorders tiles.
-  // Index 0 always gets the 2-row left span — fastfetch starts there, but any tile can land there.
-  // rectSortingStrategy measures fastfetch's full 2-row bounding box, so dragging it displaces 2 tiles.
-  const W1_POSITIONS: React.CSSProperties[] = [
-    { gridColumn: '1', gridRow: '1 / span 2' }, // 0 — double-height left slot
-    { gridColumn: '2', gridRow: '1' },           // 1 — top right
-    { gridColumn: '2', gridRow: '2' },           // 2 — bottom right
-    { gridColumn: '1', gridRow: '3' },           // 3 — bottom left
-    { gridColumn: '2', gridRow: '3' },           // 4 — bottom right
-  ]
 
   if (workspaceId === 2) {
     return (
@@ -177,24 +184,29 @@ export default function TileGrid({ workspaceId }: Props) {
   }
 
   if (workspaceId === 1) {
+    const ws1Ids = Object.keys(areaMap) as TileId[]
     return (
       <DndContext
         sensors={sensors}
         collisionDetection={rectIntersection}
-        measuring={measuring}
         onDragStart={handleDragStart}
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <SortableContext items={order} strategy={rectSortingStrategy}>
+        <SortableContext items={ws1Ids} strategy={rectSortingStrategy}>
           <div
             className="tile-grid"
             style={{
               width: '100%',
               height: '100%',
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
-              gridTemplateRows: '1fr 1fr 0.6fr',
+              gridTemplateColumns: '48% 30% 21%',
+              gridTemplateRows: '30% 40% 28%',
+              gridTemplateAreas: `
+                "fastfetch projects   projects"
+                "fastfetch activity   gameoflife"
+                "terminal  audio      audio"
+              `,
               gap: 8,
               padding: 8,
               boxSizing: 'border-box',
@@ -202,9 +214,9 @@ export default function TileGrid({ workspaceId }: Props) {
               touchAction: 'none',
             }}
           >
-            {order.map((id, i) => (
-              <div key={id} style={{ ...W1_POSITIONS[i], minHeight: 0, minWidth: 0, overflow: 'hidden' }}>
-                <SortableTile id={id} title={id}>
+            {(Object.keys(areaMap) as TileId[]).map(id => (
+              <div key={id} style={{ gridArea: areaMap[id], minHeight: 0, minWidth: 0 }}>
+                <SortableTile id={id} title={id === 'gameoflife' ? 'game of life' : id}>
                   <TileContent id={id} />
                 </SortableTile>
               </div>
@@ -212,7 +224,24 @@ export default function TileGrid({ workspaceId }: Props) {
           </div>
         </SortableContext>
 
-        <DragOverlay dropAnimation={dropAnimation}>{dragOverlay}</DragOverlay>
+        <DragOverlay dropAnimation={{ duration: 180, easing: 'cubic-bezier(0.18, 0.67, 0.6, 1.22)' }}>
+          {activeId ? (
+            <div style={{
+              background: 'var(--bg1)',
+              border: '1px solid var(--green)',
+              borderRadius: 'var(--radius-md)',
+              opacity: 0.9,
+              minHeight: 80,
+              boxShadow: '0 8px 32px rgba(0,0,0,0.2)',
+              padding: '4px 10px',
+              fontFamily: 'var(--font-mono)',
+              fontSize: 10,
+              color: 'var(--fg4)',
+            }}>
+              {activeId}
+            </div>
+          ) : null}
+        </DragOverlay>
       </DndContext>
     )
   }

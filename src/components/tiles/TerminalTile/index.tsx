@@ -51,7 +51,7 @@ export default function TerminalTile() {
         flexShrink: 0,
       }}>
         <span style={{ color: 'var(--bgreen)', fontSize: 11, whiteSpace: 'nowrap' }}>
-          {cwd} ❯
+          {cwd} $
         </span>
         <input
           value={input}

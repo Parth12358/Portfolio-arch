@@ -99,19 +99,19 @@ export default function ActivityTile() {
       </div>
 
       {/* Two columns */}
-      <div style={{ display: 'flex', gap: 16, flex: 1, overflow: 'hidden' }}>
+      <div style={{ display: 'flex', gap: 10, flex: 1, minHeight: 0, overflow: 'hidden' }}>
 
         {/* LEFT — contribution graph */}
-        <div style={{ flexShrink: 0 }}>
+        <div style={{ flexShrink: 0, overflowX: 'auto', overflowY: 'hidden' }}>
           <div>
 
             {/* Month labels */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: `40px repeat(${weeks.length}, 20px)`,
-              gap: '0 px',
+              gridTemplateColumns: `24px repeat(${weeks.length}, 14px)`,
+              gap: '0 3px',
               marginBottom: 2,
-              fontSize: 10,
+              fontSize: 9,
               color: 'var(--fg4)',
               fontFamily: 'var(--font-mono)',
             }}>
@@ -128,14 +128,14 @@ export default function ActivityTile() {
                 key={day}
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: `24px repeat(${weeks.length}, 12px)`,
-                  gap: '0 10px',
-                  marginBottom: 4,
+                  gridTemplateColumns: `24px repeat(${weeks.length}, 14px)`,
+                  gap: '0 3px',
+                  marginBottom: 3,
                   alignItems: 'center',
                 }}
               >
                 <div style={{
-                  fontSize: 10, color: 'var(--fg4)',
+                  fontSize: 9, color: 'var(--fg4)',
                   fontFamily: 'var(--font-mono)',
                   textAlign: 'right', paddingRight: 4,
                 }}>
@@ -146,7 +146,7 @@ export default function ActivityTile() {
                     key={wi}
                     title={`${week[day].date}: ${week[day].count} contributions`}
                     style={{
-                      width: 20, height: 20,
+                      width: 14, height: 14,
                       borderRadius: 2,
                       background: cellColor(week[day].count, isDark),
                       transition: 'background 0.3s ease',
@@ -166,7 +166,7 @@ export default function ActivityTile() {
               <span>less</span>
               {[0,1,2,3,4].map(l => (
                 <div key={l} style={{
-                  width: 20, height: 20, borderRadius: 2,
+                  width: 14, height: 14, borderRadius: 2,
                   background: cellColor(l, isDark),
                 }} />
               ))}
@@ -179,36 +179,27 @@ export default function ActivityTile() {
         <div style={{ width: 1, background: 'var(--bg3)', flexShrink: 0 }} />
 
         {/* RIGHT — recent repos + button */}
-        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 6, overflow: 'hidden' }}>
+        <div style={{ width: 140, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 4, overflow: 'hidden' }}>
           <div style={{ fontSize: 10, color: 'var(--fg4)', marginBottom: 4 }}>recent commits</div>
 
-          <div style={{ flex: 1, overflowY: 'auto' }}>
+          <div className="commits-list" style={{ flex: 1, overflowY: 'auto' }}>
             {commitItems.length === 0
               ? <div style={{ fontSize: 11, color: 'var(--fg4)' }}>no recent commits</div>
               : commitItems.map((c, i) => (
                 <div key={i} style={{
-                  fontSize: 11,
-                  marginBottom: 8,
-                  paddingBottom: 8,
+                  fontSize: 10,
+                  marginBottom: 5,
+                  paddingBottom: 5,
                   borderBottom: i < commitItems.length - 1 ? '1px solid var(--bg3)' : 'none',
                 }}>
-                  <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-                    <span style={{ color: 'var(--byellow)', flexShrink: 0 }}>›</span>
+                  <div style={{ display: 'flex', gap: 5, alignItems: 'flex-start' }}>
+                    <span style={{ color: 'var(--byellow)', flexShrink: 0, fontSize: 10 }}>-</span>
                     <div style={{ minWidth: 0 }}>
-                      <div style={{
-                        color: 'var(--bblue)', fontSize: 10, marginBottom: 1,
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
+                      <div style={{ color: 'var(--bblue)', fontSize: 9.5, marginBottom: 1, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                         {c.repo.replace(`${CONFIG.github.username}/`, '')}
                       </div>
-                      <div style={{
-                        color: 'var(--fg3)', fontSize: 10,
-                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-                      }}>
-                        {c.message.split('\n')[0].slice(0, 52)}
-                      </div>
-                      <div style={{ color: 'var(--fg4)', fontSize: 9, marginTop: 1 }}>
-                        {c.date}
+                      <div style={{ color: 'var(--fg4)', fontSize: 9, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                        {c.message.split('\n')[0].slice(0, 40)}
                       </div>
                     </div>
                   </div>
@@ -236,7 +227,7 @@ export default function ActivityTile() {
               e.currentTarget.style.color = 'var(--bgreen)'
             }}
           >
-            view github ↗
+            view github
           </button>
         </div>
       </div>

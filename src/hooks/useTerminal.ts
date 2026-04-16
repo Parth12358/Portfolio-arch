@@ -41,7 +41,7 @@ export function useTerminal() {
 
   const run = useCallback((raw: string) => {
     const input = raw.trim()
-    push([{ type: 'input', text: `${cwd} ❯ ${input}` }])
+    push([{ type: 'input', text: `${cwd} $ ${input}` }])
 
     if (!input) return
 

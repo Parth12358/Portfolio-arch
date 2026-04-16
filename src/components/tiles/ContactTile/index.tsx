@@ -48,7 +48,7 @@ export default function ContactTile() {
           <span style={{ color, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {val}
           </span>
-          <span style={{ marginLeft: 'auto', color: 'var(--bg3)', fontSize: 10 }}>↗</span>
+          <span style={{ marginLeft: 'auto', color: 'var(--bg3)', fontSize: 10 }}>[ext]</span>
         </a>
       ))}
     </div>

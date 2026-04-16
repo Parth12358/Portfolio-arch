@@ -6,6 +6,7 @@ export type TileId =
   | 'activity'
   | 'terminal'
   | 'audio'
+  | 'gameoflife'
   | 'projects-ws2'
   | 'timeline'
   | 'funfacts'
@@ -34,6 +35,7 @@ export const useTileStore = create<TileStore>((set) => ({
     { id: 'activity',    workspace: 1 },
     { id: 'terminal',    workspace: 1 },
     { id: 'audio',       workspace: 1 },
+    { id: 'gameoflife',  workspace: 1 },
     { id: 'timeline',    workspace: 4 },
     { id: 'funfacts',    workspace: 4 },
     { id: 'interests',   workspace: 4 },
@@ -41,7 +43,7 @@ export const useTileStore = create<TileStore>((set) => ({
     { id: 'contact',     workspace: 4 },
   ],
   tileOrder: {
-    1: ['fastfetch', 'projects', 'activity', 'terminal', 'audio'],
+    1: ['fastfetch', 'projects', 'activity', 'terminal', 'audio', 'gameoflife'],
     2: ['projects-ws2'],
     3: [],
     4: ['timeline', 'funfacts', 'interests', 'philosophy', 'contact'],

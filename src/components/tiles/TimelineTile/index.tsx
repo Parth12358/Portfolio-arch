@@ -4,70 +4,70 @@ const TIMELINE = [
     title: 'Started at Penn State',
     desc: 'Enrolled in B.S. Computer Science with Minor in Entrepreneurship & Innovation. University Park, PA.',
     color: 'var(--bblue)',
-    icon: '🎓',
+    icon: 'edu',
   },
   {
     year: 'Oct 2023',
     title: 'HackHarvard — Likhit',
     desc: 'Built AI-powered handwriting platform at Harvard. Recognition among 600+ participants.',
     color: 'var(--baqua)',
-    icon: '🏆',
+    icon: 'win',
   },
   {
     year: 'Jan 2024',
     title: 'Cofounded Technocrats',
     desc: 'Launched AI startup. Multi-modal content generation, TechCrunch Disrupt 2024.',
     color: 'var(--byellow)',
-    icon: '🚀',
+    icon: 'co',
   },
   {
     year: 'Apr 2024',
     title: 'Bitcamp — The Moth Challenge',
     desc: '1st place cybersecurity track at University of Maryland. 550+ competitors.',
     color: 'var(--borange)',
-    icon: '🏆',
+    icon: 'win',
   },
   {
     year: 'Nov 2024',
     title: 'HackUMass — VR Circuit Simulator',
     desc: 'Best VR Hack at UMass Amherst. 500+ competitors.',
     color: 'var(--bpurple)',
-    icon: '🏆',
+    icon: 'win',
   },
   {
     year: 'Mar 2025',
     title: 'Compiled-6 — WarGames',
     desc: '3rd place ($500) at Penn State. Multi-agent AI accountability simulation.',
     color: 'var(--byellow)',
-    icon: '🏆',
+    icon: 'win',
   },
   {
     year: 'May 2025',
     title: 'Detail Connect — Intern',
     desc: 'Mobile App Developer Intern. Flutter, Node.js, MongoDB. 30% UI improvement.',
     color: 'var(--baqua)',
-    icon: '💼',
+    icon: 'work',
   },
   {
     year: 'Apr 2026',
     title: 'Bitcamp — ThatsMyEcho',
     desc: 'Best Domain Name (MLH/GoDaddy). 2D Unity platformer with echo recording AI built in 36 hours.',
     color: 'var(--baqua)',
-    icon: '🏆',
+    icon: 'win',
   },
   {
     year: '2026',
     title: 'Zeph — Home Lab AI',
     desc: 'Built local AI network orchestrator. Natural language control of multiple Linux machines via Ollama.',
     color: 'var(--bgreen)',
-    icon: '⚡',
+    icon: 'proj',
   },
   {
     year: 'May 2026',
     title: 'Penn State Graduation',
     desc: 'Expected graduation. B.S. Computer Science, GPA 3.54.',
     color: 'var(--bgreen)',
-    icon: '🎓',
+    icon: 'edu',
   },
 ]
 
@@ -101,11 +101,17 @@ export default function TimelineTile() {
             <div style={{ fontSize: 9, color: 'var(--fg4)', marginBottom: 2 }}>
               {item.year}
             </div>
-            <div style={{
-              fontSize: 11, fontWeight: 700,
-              color: item.color, marginBottom: 2,
-            }}>
-              {item.icon} {item.title}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 5, marginBottom: 2 }}>
+              <span style={{
+                fontSize: 7, padding: '1px 4px', borderRadius: 2,
+                border: `1px solid ${item.color}`, color: item.color,
+                fontFamily: 'var(--font-mono)', flexShrink: 0, letterSpacing: 0.5,
+              }}>
+                {item.icon}
+              </span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: item.color }}>
+                {item.title}
+              </span>
             </div>
             <div style={{ fontSize: 10, color: 'var(--fg3)', lineHeight: 1.6 }}>
               {item.desc}

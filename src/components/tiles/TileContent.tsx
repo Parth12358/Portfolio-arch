@@ -4,6 +4,7 @@ import ProjectsTile from './ProjectsTile'
 import ActivityTile from './ActivityTile'
 import TerminalTile from './TerminalTile'
 import AudioTile from './AudioTile'
+import GameOfLifeTile from './GameOfLifeTile'
 import ProjectsWorkspaceTile from './ProjectsWorkspaceTile'
 import TimelineTile from './TimelineTile'
 import FunFactsTile from './FunFactsTile'
@@ -17,6 +18,7 @@ const MAP: Record<TileId, React.ComponentType> = {
   activity:       ActivityTile,
   terminal:       TerminalTile,
   audio:          AudioTile,
+  gameoflife:     GameOfLifeTile,
   'projects-ws2': ProjectsWorkspaceTile,
   timeline:       TimelineTile,
   funfacts:       FunFactsTile,

@@ -27,10 +27,11 @@ export default function FastfetchTile() {
   return (
     <div style={{
       display: 'flex',
-      gap: 16,
+      gap: 12,
       height: '100%',
       overflow: 'hidden',
-      padding: '12px 14px',
+      minWidth: 0,
+      alignItems: 'flex-start',
     }}>
 
       {/* Avatar */}
@@ -43,6 +44,7 @@ export default function FastfetchTile() {
         overflow: 'hidden',
         background: 'var(--bg2)',
         alignSelf: 'flex-start',
+        marginTop: 2,
       }}>
         <img
           src="/avatar.gif"
@@ -56,39 +58,42 @@ export default function FastfetchTile() {
       <div style={{
         flex: 1,
         minWidth: 0,
-        height: '100%',
+        overflow: 'hidden',
         display: 'flex',
         flexDirection: 'column',
-        overflow: 'hidden',
+        height: '100%',
       }}>
 
         {/* user@host */}
-        <div style={{ marginBottom: 8, fontSize: 13, flexShrink: 0 }}>
+        <div style={{ marginBottom: 6, fontSize: 15, letterSpacing: 0.5, flexShrink: 0 }}>
           <span style={{ color: 'var(--byellow)', fontWeight: 700 }}>{CONFIG.user.handle}</span>
-          <span style={{ color: 'var(--fg4)' }}>@</span>
+          <span style={{ color: 'var(--bg4)' }}>@</span>
           <span style={{ color: 'var(--baqua)', fontWeight: 700 }}>{CONFIG.user.host}</span>
         </div>
 
         {/* Divider */}
-        <div style={{ color: 'var(--bg3)', marginBottom: 10, fontSize: 10, letterSpacing: 1 }}>
-          {'─'.repeat(36)}
+        <div style={{ color: 'var(--bg3)', marginBottom: 10, fontSize: 10, userSelect: 'none' }}>
+          ------------------------------------
         </div>
 
         {/* Info rows */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 3, flexShrink: 0 }}>
           {INFO_ROWS.map(({ key, val, color }) => (
-            <div key={key} style={{ display: 'flex', gap: 0, fontSize: 11.5, lineHeight: 1.6 }}>
+            <div key={key} style={{ display: 'flex', alignItems: 'baseline', fontSize: 11, lineHeight: 1.65, gap: 0 }}>
               <span style={{
-                color: 'var(--yellow)',
+                color: 'var(--byellow)',
                 fontWeight: 700,
-                minWidth: 76,
+                minWidth: key.length > 7 ? 86 : 72,
                 flexShrink: 0,
+                fontSize: 10.5,
+                letterSpacing: 0.3,
               }}>
                 {key}
               </span>
-              <span style={{ color: 'var(--fg4)', marginRight: 6 }}>~</span>
+              <span style={{ color: 'var(--fg4)', marginRight: 8, fontSize: 11 }}>~</span>
               <span style={{
                 color,
+                fontSize: 11,
                 overflow: 'hidden',
                 textOverflow: 'ellipsis',
                 whiteSpace: 'nowrap',
@@ -100,26 +105,28 @@ export default function FastfetchTile() {
         </div>
 
         {/* Divider */}
-        <div style={{ color: 'var(--bg3)', margin: '10px 0', fontSize: 10, letterSpacing: 1 }}>
-          {'─'.repeat(36)}
+        <div style={{ color: 'var(--bg3)', margin: '10px 0', fontSize: 10, userSelect: 'none' }}>
+          ------------------------------------
         </div>
 
         {/* Color swatches */}
-        <div style={{ display: 'flex', gap: 5, marginBottom: 12, flexShrink: 0 }}>
+        <div style={{ display: 'flex', gap: 5, marginBottom: 12, flexShrink: 0, alignItems: 'center' }}>
           {SWATCHES.map((c, i) => (
             <div key={i} style={{
-              width: 16, height: 16,
+              width: i === 0 || i === 7 ? 18 : 14,
+              height: i === 0 || i === 7 ? 18 : 14,
               borderRadius: 3,
               background: c,
               border: '1px solid var(--bg3)',
+              alignSelf: 'center',
             }} />
           ))}
         </div>
 
         {/* Skills — fills remaining height */}
         <div style={{ flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-          <div style={{ color: 'var(--bg3)', margin: '8px 0 6px', fontSize: 10, letterSpacing: 1, flexShrink: 0 }}>
-            {'─'.repeat(36)}
+          <div style={{ color: 'var(--bg3)', margin: '8px 0 6px', fontSize: 10, userSelect: 'none', flexShrink: 0 }}>
+            ------------------------------------
           </div>
           <div style={{ flex: 1, overflow: 'hidden' }}>
             <MarqueeRow label="skills"     tags={CONFIG.skills.areas}      color="var(--baqua)"   speed={35} />

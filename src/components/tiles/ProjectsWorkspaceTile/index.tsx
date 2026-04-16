@@ -262,7 +262,7 @@ export default function ProjectsWorkspaceTile() {
                       e.currentTarget.style.color = active.color
                     }}
                   >
-                    github ↗
+                    github
                   </button>
                 )}
                 {active.demo && (
@@ -283,7 +283,7 @@ export default function ProjectsWorkspaceTile() {
                       e.currentTarget.style.color = 'var(--fg4)'
                     }}
                   >
-                    live demo ↗
+                    live demo
                   </button>
                 )}
               </div>
@@ -304,7 +304,7 @@ export default function ProjectsWorkspaceTile() {
                 display: 'flex', gap: 8, marginBottom: 6,
                 fontSize: 11, color: 'var(--fg2)', lineHeight: 1.7,
               }}>
-                <span style={{ color: active.color, flexShrink: 0 }}>›</span>
+                <span style={{ color: active.color, flexShrink: 0 }}>-</span>
                 <span>{b}</span>
               </div>
             ))}

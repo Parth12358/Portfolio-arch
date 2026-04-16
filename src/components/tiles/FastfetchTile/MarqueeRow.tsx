@@ -8,16 +8,12 @@ interface Props {
 
 export default function MarqueeRow({ tags, color, label, reverse = false, speed = 30 }: Props) {
   const doubled = [...tags, ...tags]
-  const duration = `${speed}s`
 
   return (
-    <div style={{ marginBottom: 8 }}>
+    <div style={{ marginBottom: 7, overflow: 'hidden', minWidth: 0 }}>
       <div style={{
-        fontSize: 9,
-        color: 'var(--fg4)',
-        letterSpacing: 1,
-        marginBottom: 4,
-        textTransform: 'uppercase',
+        fontSize: 9, color: 'var(--fg4)', letterSpacing: 1.5,
+        marginBottom: 3, textTransform: 'uppercase',
         fontFamily: 'var(--font-mono)',
       }}>
         {label}
@@ -27,34 +23,37 @@ export default function MarqueeRow({ tags, color, label, reverse = false, speed 
         className="marquee-track"
         style={{
           overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 60px, black calc(100% - 60px), transparent)',
+          minWidth: 0,
+          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
         }}
       >
         <div style={{
           display: 'flex',
-          gap: 6,
+          gap: 5,
           width: 'max-content',
-          transform: reverse ? 'translateX(-50%)' : 'translateX(0)',
-          animation: `${reverse ? 'marquee-reverse' : 'marquee'} ${duration} linear infinite`,
+          animation: `${reverse ? 'marquee-reverse' : 'marquee'} ${speed}s linear infinite`,
         }}>
-          {doubled.map((tag, i) => (
-            <span
-              key={i}
-              style={{
-                fontSize: 10,
-                padding: '2px 8px',
-                borderRadius: 3,
+          {doubled.map((tag, i) => {
+            const filled = i % 3 === 0
+            const large = i % 5 === 0
+            return (
+              <span key={i} style={{
+                fontSize: large ? 11 : 10,
+                padding: filled ? '2px 9px' : '2px 8px',
+                borderRadius: filled ? 4 : 3,
                 border: `1px solid ${color}`,
-                color,
+                color: filled ? 'var(--bg0)' : color,
+                background: filled ? color : 'transparent',
                 whiteSpace: 'nowrap',
                 fontFamily: 'var(--font-mono)',
-                opacity: 0.85,
-              }}
-            >
-              {tag}
-            </span>
-          ))}
+                fontWeight: filled ? 700 : 400,
+                opacity: filled ? 1 : 0.75,
+              }}>
+                {tag}
+              </span>
+            )
+          })}
         </div>
       </div>
     </div>
