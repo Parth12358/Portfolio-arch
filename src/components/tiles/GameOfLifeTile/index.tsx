@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { useThemeStore } from '../../../store/useThemeStore'
 
 const CELL = 10
+
+function getCSSVar(name: string): string {
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim()
+}
 
 function createEmpty(rows: number, cols: number): boolean[][] {
   return Array.from({ length: rows }, () => Array(cols).fill(false))
@@ -37,6 +42,8 @@ export default function GameOfLifeTile() {
   const rowsRef = useRef(0)
   const colsRef = useRef(0)
 
+  const { theme } = useThemeStore()
+
   const [running, setRunning] = useState(false)
   const [generation, setGeneration] = useState(0)
   const [population, setPopulation] = useState(0)
@@ -56,10 +63,10 @@ export default function GameOfLifeTile() {
     const rows = rowsRef.current
     const cols = colsRef.current
 
-    ctx.fillStyle = '#0d1e1c'
+    ctx.fillStyle = getCSSVar('--bg0')
     ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-    ctx.strokeStyle = '#1a3330'
+    ctx.strokeStyle = getCSSVar('--bg2')
     ctx.lineWidth = 0.5
     for (let r = 0; r <= rows; r++) {
       ctx.beginPath(); ctx.moveTo(0, r * CELL); ctx.lineTo(cols * CELL, r * CELL); ctx.stroke()
@@ -68,12 +75,13 @@ export default function GameOfLifeTile() {
       ctx.beginPath(); ctx.moveTo(c * CELL, 0); ctx.lineTo(c * CELL, rows * CELL); ctx.stroke()
     }
 
+    const aliveColor = getCSSVar('--baqua')
     let pop = 0
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
         if (grid[r]?.[c]) {
           pop++
-          ctx.fillStyle = '#427b58'
+          ctx.fillStyle = aliveColor
           ctx.fillRect(c * CELL + 1, r * CELL + 1, CELL - 1, CELL - 1)
         }
       }
@@ -105,6 +113,8 @@ export default function GameOfLifeTile() {
     if (containerRef.current) observer.observe(containerRef.current)
     return () => { observer.disconnect(); cancelAnimationFrame(rafRef.current) }
   }, [init])
+
+  useEffect(() => { draw() }, [theme, draw])
 
   useEffect(() => {
     if (!running) { cancelAnimationFrame(rafRef.current); return }
