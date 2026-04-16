@@ -3,6 +3,8 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useTileStore } from '../../../store/useTileStore'
 import { CONFIG } from '../../../data/config'
 
+const FEATURED = CONFIG.projects.filter(p => p.type === 'hackathon').slice(0, 3)
+
 export default function ProjectsTile() {
   const { setWorkspace } = useTileStore()
   const [hoveredId, setHoveredId] = useState<string | null>(null)
@@ -48,7 +50,7 @@ export default function ProjectsTile() {
           PROJECTS — hackathon wins
         </div>
         <div style={{ fontSize: 9, color: 'var(--fg4)' }}>
-          {CONFIG.projects.length} shown
+          {FEATURED.length} shown
         </div>
       </div>
 
@@ -66,7 +68,7 @@ export default function ProjectsTile() {
           scrollbarWidth: 'none',
         }}
       >
-        {[...CONFIG.projects, ...CONFIG.projects].map((project, i) => (
+        {[...FEATURED, ...FEATURED].map((project, i) => (
           <motion.div
             key={`${project.id}-${i}`}
             onHoverStart={() => setHoveredId(project.id)}
@@ -84,7 +86,7 @@ export default function ProjectsTile() {
               flexShrink: 0,
             }}
           >
-            {/* Top row — name + award badge + date */}
+            {/* Top row — name + award + links + date */}
             <div style={{
               display: 'flex',
               alignItems: 'flex-start',
@@ -92,8 +94,8 @@ export default function ProjectsTile() {
               gap: 8,
               marginBottom: 4,
             }}>
+              {/* Left — badge + name */}
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: 1, minWidth: 0 }}>
-                {/* Award badge */}
                 <span style={{
                   fontSize: 9,
                   padding: '2px 7px',
@@ -106,7 +108,6 @@ export default function ProjectsTile() {
                 }}>
                   🏆 {project.award}
                 </span>
-                {/* Project name */}
                 <span style={{
                   fontSize: 12,
                   fontWeight: 700,
@@ -118,9 +119,53 @@ export default function ProjectsTile() {
                   {project.name}
                 </span>
               </div>
-              <span style={{ fontSize: 9, color: 'var(--fg4)', flexShrink: 0 }}>
-                {project.date}
-              </span>
+
+              {/* Right — links + date */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexShrink: 0 }}>
+                {project.github && (
+                  <button
+                    onClick={e => { e.stopPropagation(); window.open(project.github, '_blank') }}
+                    style={{
+                      fontSize: 9, padding: '2px 7px', borderRadius: 3,
+                      border: '1px solid var(--bg3)', color: 'var(--fg4)',
+                      background: 'transparent', cursor: 'pointer',
+                      fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = project.color
+                      e.currentTarget.style.color = project.color
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--bg3)'
+                      e.currentTarget.style.color = 'var(--fg4)'
+                    }}
+                  >
+                    github ↗
+                  </button>
+                )}
+                {project.demo && (
+                  <button
+                    onClick={e => { e.stopPropagation(); window.open(project.demo, '_blank') }}
+                    style={{
+                      fontSize: 9, padding: '2px 7px', borderRadius: 3,
+                      border: '1px solid var(--bg3)', color: 'var(--fg4)',
+                      background: 'transparent', cursor: 'pointer',
+                      fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = project.color
+                      e.currentTarget.style.color = project.color
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--bg3)'
+                      e.currentTarget.style.color = 'var(--fg4)'
+                    }}
+                  >
+                    demo ↗
+                  </button>
+                )}
+                <span style={{ fontSize: 9, color: 'var(--fg4)' }}>{project.date}</span>
+              </div>
             </div>
 
             {/* Competition */}
@@ -155,55 +200,20 @@ export default function ProjectsTile() {
               )}
             </AnimatePresence>
 
-            {/* Stack tags + links */}
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: 8,
-            }}>
-              <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', flex: 1 }}>
-                {project.stack.map(tag => (
-                  <span key={tag} style={{
-                    fontSize: 9,
-                    padding: '1px 6px',
-                    borderRadius: 2,
-                    border: '1px solid var(--bg3)',
-                    color: 'var(--fg4)',
-                    fontFamily: 'var(--font-mono)',
-                  }}>
-                    {tag}
-                  </span>
-                ))}
-              </div>
-
-              {project.github && (
-                <button
-                  onClick={() => window.open(project.github, '_blank')}
-                  style={{
-                    fontSize: 9,
-                    padding: '2px 8px',
-                    borderRadius: 3,
-                    border: '1px solid var(--bg3)',
-                    color: 'var(--fg4)',
-                    background: 'transparent',
-                    cursor: 'pointer',
-                    fontFamily: 'var(--font-mono)',
-                    flexShrink: 0,
-                    transition: 'all 0.15s',
-                  }}
-                  onMouseEnter={e => {
-                    e.currentTarget.style.borderColor = project.color
-                    e.currentTarget.style.color = project.color
-                  }}
-                  onMouseLeave={e => {
-                    e.currentTarget.style.borderColor = 'var(--bg3)'
-                    e.currentTarget.style.color = 'var(--fg4)'
-                  }}
-                >
-                  github ↗
-                </button>
-              )}
+            {/* Stack pills */}
+            <div style={{ display: 'flex', gap: 4, flexWrap: 'wrap', marginTop: 4 }}>
+              {project.stack.map(tag => (
+                <span key={tag} style={{
+                  fontSize: 9,
+                  padding: '1px 6px',
+                  borderRadius: 2,
+                  border: '1px solid var(--bg3)',
+                  color: 'var(--fg4)',
+                  fontFamily: 'var(--font-mono)',
+                }}>
+                  {tag}
+                </span>
+              ))}
             </div>
           </motion.div>
         ))}

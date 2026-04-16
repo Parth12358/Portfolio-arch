@@ -45,7 +45,7 @@ export function useGitHub() {
         setEvents(Array.isArray(evts) ? evts : [])
         setLoading(false)
       })
-      .catch(() => { setError(true); setLoading(false) })
+      .catch((err) => { console.error('GitHub fetch failed:', err); setError(true); setLoading(false) })
   }, [])
 
   return { events, profile, loading, error }

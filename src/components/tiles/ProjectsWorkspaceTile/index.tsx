@@ -230,9 +230,65 @@ export default function ProjectsWorkspaceTile() {
                 {active.award}
               </span>
             </div>
-            <div style={{ fontSize: 11, color: 'var(--fg4)', marginBottom: 8 }}>
-              {active.competition} · {active.date}
+
+            {/* Competition + date + links on one row */}
+            <div style={{
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              marginBottom: 10,
+              gap: 12,
+            }}>
+              <div style={{ fontSize: 11, color: 'var(--fg4)' }}>
+                {active.competition} · {active.date}
+              </div>
+
+              <div style={{ display: 'flex', gap: 6, flexShrink: 0 }}>
+                {active.github && (
+                  <button
+                    onClick={() => window.open(active.github, '_blank')}
+                    style={{
+                      fontSize: 10, padding: '3px 10px', borderRadius: 3,
+                      border: `1px solid ${active.color}`, color: active.color,
+                      background: 'transparent', cursor: 'pointer',
+                      fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = active.color
+                      e.currentTarget.style.color = 'var(--bg0)'
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = 'transparent'
+                      e.currentTarget.style.color = active.color
+                    }}
+                  >
+                    github ↗
+                  </button>
+                )}
+                {active.demo && (
+                  <button
+                    onClick={() => window.open(active.demo, '_blank')}
+                    style={{
+                      fontSize: 10, padding: '3px 10px', borderRadius: 3,
+                      border: '1px solid var(--bg3)', color: 'var(--fg4)',
+                      background: 'transparent', cursor: 'pointer',
+                      fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
+                    }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.borderColor = active.color
+                      e.currentTarget.style.color = active.color
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.borderColor = 'var(--bg3)'
+                      e.currentTarget.style.color = 'var(--fg4)'
+                    }}
+                  >
+                    live demo ↗
+                  </button>
+                )}
+              </div>
             </div>
+
             <div style={{ fontSize: 12, color: 'var(--fg3)', lineHeight: 1.8 }}>
               {active.desc}
             </div>
@@ -310,51 +366,6 @@ export default function ProjectsWorkspaceTile() {
             </div>
           </div>
 
-          {/* Links */}
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {active.github && (
-              <button
-                onClick={() => window.open(active.github, '_blank')}
-                style={{
-                  fontSize: 11, padding: '5px 14px', borderRadius: 3,
-                  border: `1px solid ${active.color}`, color: active.color,
-                  background: 'transparent', cursor: 'pointer',
-                  fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = active.color
-                  e.currentTarget.style.color = 'var(--bg0)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'transparent'
-                  e.currentTarget.style.color = active.color
-                }}
-              >
-                github ↗
-              </button>
-            )}
-            {active.demo && (
-              <button
-                onClick={() => window.open(active.demo, '_blank')}
-                style={{
-                  fontSize: 11, padding: '5px 14px', borderRadius: 3,
-                  border: '1px solid var(--bg3)', color: 'var(--fg4)',
-                  background: 'transparent', cursor: 'pointer',
-                  fontFamily: 'var(--font-mono)', transition: 'all 0.15s',
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.borderColor = 'var(--fg4)'
-                  e.currentTarget.style.color = 'var(--fg)'
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.borderColor = 'var(--bg3)'
-                  e.currentTarget.style.color = 'var(--fg4)'
-                }}
-              >
-                live demo ↗
-              </button>
-            )}
-          </div>
         </motion.div>
       </AnimatePresence>
     </div>

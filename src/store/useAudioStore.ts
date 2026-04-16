@@ -67,17 +67,32 @@ export const useAudioStore = create<AudioStore>((set, get) => ({
     audio.addEventListener('loadedmetadata', () => get().setDuration(audio.duration))
     audio.addEventListener('timeupdate', () => get().setCurrentTime(audio.currentTime))
 
-    set({ audio, fakeStartTime: Date.now() })
-
-    audio.play().then(() => {
-      set({ playing: true })
+    const startFake = () => {
+      set({ playing: true, fakeStartTime: Date.now() })
       const tick = () => {
         const elapsed = (Date.now() - get().fakeStartTime) / 1000
         get().setBars(generateFakeBars(elapsed))
         set({ fakeRafId: requestAnimationFrame(tick) })
       }
       tick()
-    }).catch(() => {})
+    }
+
+    set({ audio })
+
+    // Start fake visualizer immediately — don't wait for play() promise
+    startFake()
+
+    // Attempt autoplay (allowed by browsers when muted)
+    audio.play().catch(() => {
+      // If blocked, retry on first user interaction
+      const resume = () => {
+        audio.play().catch(() => {})
+        document.removeEventListener('click', resume)
+        document.removeEventListener('keydown', resume)
+      }
+      document.addEventListener('click', resume)
+      document.addEventListener('keydown', resume)
+    })
   },
 
   togglePlay: () => {

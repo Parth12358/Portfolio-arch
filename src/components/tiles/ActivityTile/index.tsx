@@ -67,7 +67,25 @@ export default function ActivityTile() {
 
   const weeks = buildWeekGrid(events)
   const monthLabels = getMonthLabels(weeks)
-  const pushEvents = events.filter(e => e.type === 'PushEvent').slice(0, 4)
+  const commitItems = events
+    .filter(e => e.type === 'PushEvent')
+    .flatMap(e => {
+      const commits = e.payload?.commits ?? []
+      if (commits.length > 0) {
+        return commits.map((c: any) => ({
+          repo: e.repo.name,
+          message: c.message ?? 'push',
+          date: e.created_at?.slice(0, 10) ?? '',
+        }))
+      }
+      // fallback: no commit messages in payload — show the push event itself
+      return [{
+        repo: e.repo.name,
+        message: 'pushed commits',
+        date: e.created_at?.slice(0, 10) ?? '',
+      }]
+    })
+    .slice(0, 16)
 
   if (loading) return <div style={{ color: 'var(--fg4)', fontSize: 11 }}>fetching activity...</div>
   if (error)   return <div style={{ color: 'var(--red)', fontSize: 11 }}>failed to load github data</div>
@@ -165,15 +183,33 @@ export default function ActivityTile() {
           <div style={{ fontSize: 10, color: 'var(--fg4)', marginBottom: 4 }}>recent commits</div>
 
           <div style={{ flex: 1, overflowY: 'auto' }}>
-            {pushEvents.length === 0
-              ? <div style={{ fontSize: 11, color: 'var(--fg4)' }}>no recent push events</div>
-              : pushEvents.map((e, i) => (
-                <div key={i} style={{ fontSize: 11, color: 'var(--fg3)', marginBottom: 6, display: 'flex', gap: 6, alignItems: 'flex-start' }}>
-                  <span style={{ color: 'var(--byellow)', flexShrink: 0 }}>›</span>
-                  <div>
-                    <div style={{ color: 'var(--bblue)', fontSize: 10, marginBottom: 1 }}>{e.repo.name}</div>
-                    <div style={{ color: 'var(--fg4)', fontSize: 10, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                      {e.payload?.commits?.[0]?.message?.slice(0, 40) ?? 'push event'}
+            {commitItems.length === 0
+              ? <div style={{ fontSize: 11, color: 'var(--fg4)' }}>no recent commits</div>
+              : commitItems.map((c, i) => (
+                <div key={i} style={{
+                  fontSize: 11,
+                  marginBottom: 8,
+                  paddingBottom: 8,
+                  borderBottom: i < commitItems.length - 1 ? '1px solid var(--bg3)' : 'none',
+                }}>
+                  <div style={{ display: 'flex', gap: 6, alignItems: 'flex-start' }}>
+                    <span style={{ color: 'var(--byellow)', flexShrink: 0 }}>›</span>
+                    <div style={{ minWidth: 0 }}>
+                      <div style={{
+                        color: 'var(--bblue)', fontSize: 10, marginBottom: 1,
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {c.repo.replace(`${CONFIG.github.username}/`, '')}
+                      </div>
+                      <div style={{
+                        color: 'var(--fg3)', fontSize: 10,
+                        overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                      }}>
+                        {c.message.split('\n')[0].slice(0, 52)}
+                      </div>
+                      <div style={{ color: 'var(--fg4)', fontSize: 9, marginTop: 1 }}>
+                        {c.date}
+                      </div>
                     </div>
                   </div>
                 </div>

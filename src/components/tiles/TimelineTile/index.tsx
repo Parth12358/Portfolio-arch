@@ -49,6 +49,20 @@ const TIMELINE = [
     icon: '💼',
   },
   {
+    year: 'Apr 2026',
+    title: 'Bitcamp — ThatsMyEcho',
+    desc: 'Best Domain Name (MLH/GoDaddy). 2D Unity platformer with echo recording AI built in 36 hours.',
+    color: 'var(--baqua)',
+    icon: '🏆',
+  },
+  {
+    year: '2026',
+    title: 'Zeph — Home Lab AI',
+    desc: 'Built local AI network orchestrator. Natural language control of multiple Linux machines via Ollama.',
+    color: 'var(--bgreen)',
+    icon: '⚡',
+  },
+  {
     year: 'May 2026',
     title: 'Penn State Graduation',
     desc: 'Expected graduation. B.S. Computer Science, GPA 3.54.',
