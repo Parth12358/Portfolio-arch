@@ -7,12 +7,8 @@ const INFO_ROWS = [
   { key: 'edu',        val: CONFIG.user.university,  color: 'var(--bblue)' },
   { key: 'gpa',        val: CONFIG.user.gpa,         color: 'var(--bgreen)' },
   { key: 'location',   val: CONFIG.user.location,    color: 'var(--fg2)' },
-  { key: 'os',         val: CONFIG.user.os,          color: 'var(--bblue)' },
   { key: 'wm',         val: CONFIG.user.wm,          color: 'var(--bpurple)' },
-  { key: 'editor',     val: CONFIG.user.editor,      color: 'var(--borange)' },
   { key: 'shell',      val: CONFIG.user.shell,       color: 'var(--fg)' },
-  { key: 'terminal',   val: CONFIG.user.terminal,    color: 'var(--fg)' },
-  { key: 'theme',      val: CONFIG.user.theme,       color: 'var(--bgreen)' },
   { key: 'website',    val: CONFIG.user.website,     color: 'var(--bblue)' },
   { key: 'email',      val: CONFIG.user.email,       color: 'var(--fg3)' },
   { key: 'linkedin',   val: CONFIG.user.linkedin,    color: 'var(--bblue)' },
@@ -69,6 +65,29 @@ export default function FastfetchTile() {
           <span style={{ color: 'var(--byellow)', fontWeight: 700 }}>{CONFIG.user.handle}</span>
           <span style={{ color: 'var(--bg4)' }}>@</span>
           <span style={{ color: 'var(--baqua)', fontWeight: 700 }}>{CONFIG.user.host}</span>
+        </div>
+
+        {/* Seeking badge */}
+        <div style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          marginBottom: 8,
+          padding: '3px 10px',
+          borderRadius: 4,
+          border: '1px solid var(--bgreen)',
+          background: 'color-mix(in srgb, var(--green) 12%, transparent)',
+        }}>
+          <span style={{
+            width: 7, height: 7, borderRadius: '50%',
+            background: 'var(--bgreen)',
+            display: 'inline-block',
+            animation: 'pulse-dot 2s ease-in-out infinite',
+            flexShrink: 0,
+          }} />
+          <span style={{ fontSize: 10, color: 'var(--bgreen)', fontFamily: 'var(--font-mono)' }}>
+            {CONFIG.user.seeking}
+          </span>
         </div>
 
         {/* Divider */}

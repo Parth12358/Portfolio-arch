@@ -76,6 +76,11 @@ button {
   to   { width: 100%; }
 }
 
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.5; transform: scale(0.8); }
+}
+
 @media (max-width: 768px) {
   .projects-ws2-left {
     width: 100% !important;

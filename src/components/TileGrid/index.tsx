@@ -125,12 +125,12 @@ export default function TileGrid({ workspaceId }: Props) {
               width: '100%',
               height: '100%',
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: '1fr 1fr 1.2fr',
               gridTemplateRows: '1fr 1fr 0.6fr',
               gridTemplateAreas: `
-                "timeline   funfacts"
-                "timeline   interests"
-                "philosophy contact"
+                "timeline   funfacts  resume"
+                "timeline   interests resume"
+                "philosophy contact   resume"
               `,
               gap: 8,
               padding: 8,
@@ -162,6 +162,11 @@ export default function TileGrid({ workspaceId }: Props) {
             <div style={{ gridArea: 'contact',    minHeight: 0 }}>
               <SortableTile id="contact" title="contact">
                 <TileContent id="contact" />
+              </SortableTile>
+            </div>
+            <div style={{ gridArea: 'resume', minHeight: 0, minWidth: 0 }}>
+              <SortableTile id="resume" title="resume">
+                <TileContent id="resume" />
               </SortableTile>
             </div>
           </div>

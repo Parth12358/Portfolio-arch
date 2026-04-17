@@ -1,12 +1,16 @@
 import { useEffect } from 'react'
 import { useThemeStore } from './store/useThemeStore'
+import { useMobile } from './hooks/useMobile'
 import Waybar from './components/Waybar'
 import WorkspaceManager from './components/Workspace/WorkspaceManager'
 import AudioProvider from './components/AudioProvider'
+import MobileApp from './mobile/MobileApp'
+import ContactCTA from './components/ContactCTA'
 import './styles/globals.css'
 
 export default function App() {
   const { setTheme } = useThemeStore()
+  const isMobile = useMobile()
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-color-scheme: dark)')
@@ -30,6 +34,8 @@ export default function App() {
     return () => window.removeEventListener('keydown', handler)
   }, [])
 
+  if (isMobile) return <MobileApp />
+
   return (
     <div style={{
       width: '100vw', height: '100vh',
@@ -39,6 +45,7 @@ export default function App() {
       <AudioProvider />
       <Waybar />
       <WorkspaceManager />
+      <ContactCTA />
     </div>
   )
 }

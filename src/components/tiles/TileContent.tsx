@@ -11,6 +11,7 @@ import FunFactsTile from './FunFactsTile'
 import InterestsTile from './InterestsTile'
 import PhilosophyTile from './PhilosophyTile'
 import ContactTile from './ContactTile'
+import ResumeTile from './ResumeTile'
 
 const MAP: Record<TileId, React.ComponentType> = {
   fastfetch:      FastfetchTile,
@@ -25,6 +26,7 @@ const MAP: Record<TileId, React.ComponentType> = {
   interests:      InterestsTile,
   philosophy:     PhilosophyTile,
   contact:        ContactTile,
+  resume:         ResumeTile,
 }
 
 export default function TileContent({ id }: { id: TileId }) {

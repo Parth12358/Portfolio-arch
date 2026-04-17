@@ -41,6 +41,7 @@ export const CONFIG: {
     website: 'parthk.com',
     email: 'parth.kshirsagar1410@gmail.com',
     linkedin: 'linkedin.com/in/parth-kshirsagar',
+    seeking: 'SWE / AI roles — May 2026',
   },
   skills: {
     areas:      ['AI/ML', 'Full Stack', 'Mobile Dev', 'Frontend', 'Backend', 'VR/AR', 'Edge AI', 'Robotics', 'Cybersecurity', 'Systems Programming', 'Audio Processing', 'Assistive Tech'],
